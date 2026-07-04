@@ -13,7 +13,7 @@ export default function Header() {
           height={20}
           priority
         />
-        <Link href="/"><h1 className="p-1">EduBubble</h1></Link>
+        <Link href="/"><h1 className="p-1 font-bold">EduBubble</h1></Link>
         <Image
           className=""
           src="/bubbles.svg"
