@@ -30,8 +30,8 @@ export default function Home() {
       <Image
         src="/edububble.png"
         alt="EduBubble logo"
-        width={500}
-        height={100}
+        width={400}
+        height={400}
         priority
       />
       {
