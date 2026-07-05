@@ -8,6 +8,7 @@ type Post = {
     id: string;
     title: string;
     content: string;
+    imageURL: string;
 }
 export default function Home() {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -19,7 +20,8 @@ export default function Home() {
         const queryPosts: Post[] = querySnapshot.docs.map(doc => ({
             id: doc.id,
             title: doc.data().title,
-            content: doc.data().content
+            content: doc.data().content,
+            imageURL: doc.data().imageURL
         }));
         setPosts(queryPosts);
     }
@@ -27,23 +29,24 @@ export default function Home() {
   }, []);
   return (
     <div className="flex flex-col items-center space-y-2 p-4">
-      <Image
-        src="/edububble.png"
-        alt="EduBubble logo"
-        width={400}
-        height={400}
-        priority
-      />
       {
         posts.length ?
         posts.map(post => {
           return (
             <Link href={`/dpp/?p=${post.id}`} key={post.id}>
-              <div key={post.id} className="border border-black rounded-xl p-2">
+              <div key={post.id} className="border border-black rounded-xl p-2 flex flex-col items-center">
+                <Image
+                  src={post.imageURL}
+                  alt="Post Image"
+                  width={700}
+                  height={700}
+                  priority
+                  className="rounded-xl"
+                />
                 <div className="flex justify-center">
                   <span className="text-blue-500">{post.title}</span>
                 </div>
-                <p>{post.content.substring(0, 150)}...</p>
+                <p>{post.content.substring(0, 200)}...</p>
               </div>
             </Link>
           )
