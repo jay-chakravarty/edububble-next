@@ -50,7 +50,7 @@ export default function Home() {
               </div>
             </Link>
           )
-        }) : <p>Loading...</p>
+        }) : <p className="font-bold">Loading...</p>
       }
     </div>
   );

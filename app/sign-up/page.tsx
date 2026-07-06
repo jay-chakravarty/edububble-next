@@ -23,7 +23,7 @@ export default async function SignUpPage() {
                         <input type="confirm" id="confirm" name="confirm" className="border border-black rounded-xl p-1 m-1" required/>
                     </div>
                 </div>
-                <button type="submit" className="bg-blue-500 border border-black py-1 px-2 rounded-full text-white">Sign Up</button>
+                <button type="submit" className="bg-blue-500 border border-black py-1 px-2 rounded-full text-white font-bold">Sign Up</button>
             </form>
             <Link href="/login" className="text-blue-500">Login with another account</Link>
         </div>

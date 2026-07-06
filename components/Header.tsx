@@ -25,10 +25,10 @@ export default function Header() {
       </div>
       <nav className="space-x-2">
         <Link href="/login">
-          <button className="bg-blue-500 border border-black py-1 px-2 rounded-full">Log In</button>
+          <button className="bg-blue-500 border border-black py-1 px-2 rounded-full font-bold">Log In</button>
         </Link>
         <Link href="/sign-up">
-          <button className="bg-blue-500 border border-black py-1 px-2 rounded-full">Sign Up</button>
+          <button className="bg-blue-500 border border-black py-1 px-2 rounded-full font-bold">Sign Up</button>
         </Link>
       </nav>
     </header>
