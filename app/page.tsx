@@ -28,18 +28,18 @@ export default function Home() {
     getAllPosts();
   }, []);
   return (
-    <div className="flex flex-col items-center space-y-2 p-4">
+    <div className="flex flex-col items-center space-y-2">
       {
         posts.length ?
         posts.map(post => {
           return (
             <Link href={`/dpp/?p=${post.id}`} key={post.id}>
-              <div key={post.id} className="border border-black rounded-xl p-2 flex flex-col items-center">
+              <div key={post.id} className="border border-black rounded-xl p-4 flex flex-col items-center">
                 <Image
                   src={post.imageURL}
                   alt="Post Image"
-                  width={700}
-                  height={700}
+                  width={500}
+                  height={500}
                   priority
                   className="rounded-xl"
                 />

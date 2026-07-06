@@ -1,6 +1,6 @@
 export default async function TopicsPage() {
     return (
-        <div className="p-2">
+        <div>
             <h1 className="text-center text-3xl font-bold">Index of Topics</h1>
             <div className="p-4 grid grid-cols-2 gap-4 text-center">      
                 <section>
