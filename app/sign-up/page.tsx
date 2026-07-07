@@ -21,7 +21,7 @@ export default async function SignUpPage() {
                     <label htmlFor="confirm" className="font-bold">Confirm Password</label><br></br>
                     <input type="confirm" id="confirm" name="confirm" className="border border-black rounded-xl p-1 w-full" required/>
                 </div>
-                <button type="submit" className="bg-blue-500 border border-black py-1 px-2 rounded-full text-white font-bold w-1/2 mx-auto my-2">Sign Up</button>
+                <button type="submit" className="cursor-pointer bg-blue-500 border border-black py-1 px-2 rounded-full text-white font-bold w-1/2 mx-auto my-2">Sign Up</button>
             </form>
             <Link href="/login" className="text-blue-500">Login with another account</Link>
         </div>
