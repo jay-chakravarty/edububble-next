@@ -1,10 +1,12 @@
 "use client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { db, storage } from "../firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 export default async function PostNewContent() {
+    const router = useRouter();
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const form = e.currentTarget;
@@ -24,6 +26,7 @@ export default async function PostNewContent() {
             });
             form.reset();
             alert("Post created!");
+            router.push("/");
         } catch (error) {
             console.error("Error creating post:", error);
             alert("Failed to create post.");
