@@ -51,9 +51,9 @@ export default function Home() {
                 className="rounded-xl"
               />
               <div className="flex justify-center">
-                <span className="text-blue-500">{post.title}</span>
+                <span className="text-blue-500">{post.title}{post.content.length > 50 ? " (Click for more details)" : ""}</span>
               </div>
-              <p>{post.content.length > 200 ? post.content.substring(0, 200) + "..." : post.content}</p>
+              <p>{post.content.length > 50 ? post.content.substring(0, 50) + "..." : post.content}</p>
             </div>
           </Link>
         ))}
