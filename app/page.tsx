@@ -53,7 +53,7 @@ export default function Home() {
               <div className="flex justify-center">
                 <span className="text-blue-500">{post.title}</span>
               </div>
-              <p>{post.content.substring(0, 200)}...</p>
+              <p>{post.content.length > 200 ? post.content.substring(0, 200) + "..." : post.content}</p>
             </div>
           </Link>
         ))}
