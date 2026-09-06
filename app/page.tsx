@@ -1,9 +1,9 @@
 "use client"
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { db, storage } from "./firebase";
-import { collection, getDocs, query, orderBy } from "firebase/firestore";
+import { collection, getDocs, query, orderBy, limit, startAfter } from "firebase/firestore";
 import { ref, getDownloadURL } from "firebase/storage";
 type Post = {
     id: string;
@@ -13,13 +13,17 @@ type Post = {
 }
 export default function Home() {
   const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(false);
+  const loadingRef = useRef(false);
+  const [lastDoc, setLastDoc] = useState<any>(null);
+  const [hasMore, setHasMore] = useState(true);
   useEffect(() => {
-    const getAllPosts = async () => {
-        const postsRef = collection(db, "posts");
-        const q = query(postsRef, orderBy("createdAt", "desc"));
-        const querySnapshot = await getDocs(q);
-        const queryPosts: Post[] = await Promise.all(
-          querySnapshot.docs.map(async (doc) => {
+    const getFirstPosts = async () => {
+      const postsRef = collection(db, "posts");
+      const q = query(postsRef, orderBy("createdAt", "desc"), limit(3));
+      const querySnapshot = await getDocs(q);
+      const queryPosts: Post[] = await Promise.all(
+        querySnapshot.docs.map(async (doc) => {
           const data = doc.data();
           return {
             id: doc.id,
@@ -31,10 +35,65 @@ export default function Home() {
           };
         })
       );
-        setPosts(queryPosts);
+      setPosts(queryPosts);
+      if (querySnapshot.docs.length < 3) {
+        setHasMore(false);
+      }
+      setLastDoc(querySnapshot.docs[querySnapshot.docs.length - 1]);
     }
-    getAllPosts();
+    getFirstPosts();
   }, []);
+  useEffect(() => {
+    if (!lastDoc || !hasMore)  {
+      return;
+    }
+    const handleScroll = async () => {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 250) {
+        if (loadingRef.current) {
+          return;
+        }
+        loadingRef.current = true;
+        const postsRef = collection(db, "posts");
+        const q = query(
+          postsRef,
+          orderBy("createdAt", "desc"),
+          startAfter(lastDoc),
+          limit(3)
+        );
+        const querySnapshot = await getDocs(q);
+        if (querySnapshot.empty) {
+          setHasMore(false);
+          loadingRef.current = false;
+          return;
+        }
+        setLoading(true);
+        const queryPosts: Post[] = await Promise.all(
+          querySnapshot.docs.map(async (doc) => {
+            const data = doc.data();
+            return {
+              id: doc.id,
+              title: data.title,
+              content: data.content,
+              imageURL: await getDownloadURL(
+                ref(storage, data.imageID)
+              ),
+            };
+          })
+        );
+        setPosts((prevPosts) => [...prevPosts, ...queryPosts]);
+        if (querySnapshot.docs.length < 3) {
+          setHasMore(false);
+        }
+        setLastDoc(querySnapshot.docs[querySnapshot.docs.length - 1]);
+        setLoading(false);
+        loadingRef.current = false;
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [lastDoc, hasMore]);
   return (
   <div className="flex flex-col items-center space-y-2">
     {posts.length ? (
@@ -63,6 +122,7 @@ export default function Home() {
             </div>
           </Link>
         ))}
+        {loading && hasMore && <p className="font-bold">Loading more posts...</p>}
         <div className="flex justify-center mb-2">
           <Link href="/post">
             <button className="cursor-pointer bg-blue-500 border border-black py-1 px-2 rounded-full font-bold text-white">
