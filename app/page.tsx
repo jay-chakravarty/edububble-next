@@ -122,7 +122,15 @@ export default function Home() {
             </div>
           </Link>
         ))}
-        {loading && hasMore && <p className="font-bold">Loading more posts...</p>}
+        {loading && hasMore &&
+          <Image
+            src="/loading.gif"
+            alt="Loading"
+            width={50}
+            height={50}
+            priority
+          />
+        }
         <div className="flex justify-center mb-2">
           <Link href="/post">
             <button className="cursor-pointer bg-blue-500 border border-black py-1 px-2 rounded-full font-bold text-white">
@@ -132,7 +140,13 @@ export default function Home() {
         </div>
       </>
     ) : (
-      <p className="font-bold">Loading...</p>
+      <Image
+        src="/loading.gif"
+        alt="Loading"
+        width={50}
+        height={50}
+        priority
+      />
     )}
   </div>
 );
