@@ -14,9 +14,9 @@ type Post = {
 export default function Home() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(false);
-  const loadingRef = useRef(false);
   const [lastDoc, setLastDoc] = useState<any>(null);
   const [hasMore, setHasMore] = useState(true);
+  const loadingRef = useRef(false);
   useEffect(() => {
     const getFirstPosts = async () => {
       const postsRef = collection(db, "posts");
@@ -44,7 +44,7 @@ export default function Home() {
     getFirstPosts();
   }, []);
   useEffect(() => {
-    if (!lastDoc || !hasMore)  {
+    if (!hasMore)  {
       return;
     }
     const handleScroll = async () => {
